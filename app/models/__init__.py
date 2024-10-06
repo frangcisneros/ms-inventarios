@@ -1,1 +1,1 @@
-from .inventario import Inventario
+from .stock import Stock
