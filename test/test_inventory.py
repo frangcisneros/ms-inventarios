@@ -5,7 +5,7 @@ from app.services.ms_stock import StockService
 from app.repositories.stock_repo import StockRepo
 
 
-class InventoryTestCase(unittest.TestCase):
+class StockTestCase(unittest.TestCase):
     def setUp(self):
         self.app = create_app()
         self.app_context = self.app.app_context()
@@ -17,7 +17,7 @@ class InventoryTestCase(unittest.TestCase):
         db.drop_all()
         self.app_context.pop()
 
-    def test_inventory(self):
+    def test_stock(self):
         item = Stock(
             product_id=1, transaction_date="2024-10-10", quantity=10, in_out="in"
         )
@@ -29,7 +29,7 @@ class InventoryTestCase(unittest.TestCase):
         self.assertEqual(item.quantity, 10)
         self.assertEqual(item.in_out, "in")
 
-    def test_sell_inventory(self):
+    def test_sell_stock(self):
         ms_stock = StockService()
         ms_stock.make_sale(product_id=1, quantity=10, transaction_date="2024-10-10")
         stock_repo = StockRepo()
@@ -41,7 +41,7 @@ class InventoryTestCase(unittest.TestCase):
             self.assertEqual(stock.quantity, 10)
             self.assertEqual(stock.in_out, "out")
 
-    def test_refuel_inventory(self):
+    def test_refuel_stock(self):
         ms_stock = StockService()
         ms_stock.refuel(product_id=1, quantity=10, transaction_date="2024-10-10")
         stock_repo = StockRepo()
