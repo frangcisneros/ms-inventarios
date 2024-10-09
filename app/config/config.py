@@ -1,8 +1,7 @@
 import os
 from pathlib import Path
 from dotenv import load_dotenv
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+
 
 basedir = os.path.abspath(Path(__file__).parents[2])
 load_dotenv(os.path.join(basedir, ".env"))
@@ -26,8 +25,28 @@ class DevelopmentConfig(Config):
     SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL")
 
 
+class TestConfig(Config):
+    TESTING = True
+    DEBUG = True
+    SQLALCHEMY_TRACK_MODIFICATIONS = True
+    SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_TEST_URL")
+
+
+class ProductionConfig(Config):
+    DEBUG = False
+    TESTING = False
+    SQLALCHEMY_RECORD_QUERIES = False
+    SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_PROD_URL")
+
+    @classmethod
+    def init_app(cls, app):
+        Config.init_app(app)
+
+
 def factory(app):
     configuation = {
         "development": DevelopmentConfig,
+        "testing": TestConfig,
+        "production": ProductionConfig,
     }
     return configuation[app]
