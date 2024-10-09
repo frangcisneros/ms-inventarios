@@ -4,11 +4,11 @@ ENV FLASK_CONTEXT=development
 ENV PYTHONUNBUFFERED=1
 ENV PATH=$PATH:/home/flaskapp/.local/bin
 
-RUN useradd --create-home --home-dir /home/flaskapp flaskapp \
-    && apt-get update \
-    && apt-get install -y python3-dev build-essential libpq-dev python3-psycopg2 \
-    && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
-    && rm -rf /var/lib/apt/lists/*
+RUN useradd --create-home --home-dir /home/flaskapp flaskapp
+RUN apt-get update
+RUN apt-get install -y python3-dev build-essential libpq-dev python3-psycopg2
+RUN apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false
+RUN rm -rf /var/lib/apt/lists/*
 
 WORKDIR /home/flaskapp
 
@@ -17,11 +17,8 @@ RUN mkdir app
 
 COPY ./app ./app
 COPY ./app.py .
-RUN ls -la /home/flaskapp/app
-COPY requirements.txt .
-COPY .env .
 
-ENTRYPOINT [ “python” ]
+ADD requirements.txt ./requirements.txt
 
 RUN pip install --no-cache-dir -r requirements.txt
 
