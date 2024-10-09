@@ -1,11 +1,8 @@
-import os
 import unittest
-from sqlalchemy import text
 from app import create_app, db
 
 
 class MainAppResourceTestCase(unittest.TestCase):
-
     def setUp(self):
         self.app = create_app()
         self.app_context = self.app.app_context()
