@@ -60,3 +60,12 @@ class StockTestCase(unittest.TestCase):
         quantity = ms_stock.check_quantity(product_id=1)
         print(quantity)
         self.assertEqual(quantity, 5)
+
+    def test_delete_product(self):
+        ms_stock = StockService()
+        ms_stock.refuel(product_id=1, quantity=10, transaction_date="2024-10-10")
+        ms_stock.make_sale(product_id=1, quantity=5, transaction_date="2024-10-10")
+        ms_stock.delete_product(product_id=1)
+        stock_repo = StockRepo()
+        stock = stock_repo.find_by_id(1)
+        self.assertIsNone(stock)

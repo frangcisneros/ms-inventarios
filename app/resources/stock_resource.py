@@ -48,3 +48,10 @@ def check_quantity(product_id):
     """Endpoint to check the quantity of a specific product."""
     quantity = stock_service.check_quantity(product_id)
     return {"quantity": quantity}, 200
+
+
+@stock_bp.route("/stock/delete_product/<int:product_id>", methods=["DELETE"])
+def delete_product(product_id):
+    """Endpoint to delete a product."""
+    stock_service.delete_product(product_id)
+    return {"message": "Product deleted successfully"}, 200

@@ -13,3 +13,8 @@ class StockRepo:
 
     def find_all_by_product_id(self, product_id):
         return Stock.query.filter_by(product_id=product_id).all()
+
+    def delete(self, stock: Stock):
+        db.session.delete(stock)
+        db.session.commit()
+        return stock

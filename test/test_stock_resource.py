@@ -45,3 +45,13 @@ class StockResourceTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         if response.json is not None:
             self.assertEqual(response.json["quantity"], 10)
+
+    def test_ms_delete_product(self):
+        client = self.app.test_client(use_cookies=True)
+        response = client.post(
+            "http://localhost:5000/api/v1/stock/refuel",
+            json={"product_id": 1, "quantity": 10},
+        )
+        response = client.delete("http://localhost:5000/api/v1/stock/delete_product/1")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json["message"], "Product deleted successfully")

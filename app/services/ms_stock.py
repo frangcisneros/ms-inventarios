@@ -42,3 +42,9 @@ class StockService:
             else:
                 quantity -= item.quantity
         return quantity
+
+    def delete_product(self, product_id):
+        stock = self.stock_repo.find_all_by_product_id(product_id)
+        for item in stock:
+            self.stock_repo.delete(item)
+        return "Product deleted successfully"
