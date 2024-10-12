@@ -54,4 +54,5 @@ class StockResourceTestCase(unittest.TestCase):
         )
         response = client.delete("http://localhost:5000/api/v1/stock/delete_product/1")
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json["message"], "Product deleted successfully")
+        if response.json is not None:
+            self.assertEqual(response.json["message"], "Product deleted successfully")

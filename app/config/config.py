@@ -23,6 +23,11 @@ class DevelopmentConfig(Config):
     DEBUG = True
     SQLALCHEMY_TRACK_MODIFICATIONS = True
     SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL")
+    SQLALCHEMY_ENGINE_OPTIONS = {
+        "connect_args": {
+            "options": "-csearch_path=stock_schema"  # Cambia esto según el microservicio
+        }
+    }
 
 
 class TestConfig(Config):
@@ -30,6 +35,11 @@ class TestConfig(Config):
     DEBUG = True
     SQLALCHEMY_TRACK_MODIFICATIONS = True
     SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_TEST_URL")
+    SQLALCHEMY_ENGINE_OPTIONS = {
+        "connect_args": {
+            "options": "-csearch_path=compras_schema"  # Cambia esto según el microservicio
+        }
+    }
 
 
 class ProductionConfig(Config):
@@ -37,10 +47,11 @@ class ProductionConfig(Config):
     TESTING = False
     SQLALCHEMY_RECORD_QUERIES = False
     SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_PROD_URL")
-
-    @classmethod
-    def init_app(cls, app):
-        Config.init_app(app)
+    SQLALCHEMY_ENGINE_OPTIONS = {
+        "connect_args": {
+            "options": "-csearch_path=main_schema"  # Cambia esto según el esquema que uses
+        }
+    }
 
 
 def factory(app):
