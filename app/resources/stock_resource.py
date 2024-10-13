@@ -1,18 +1,37 @@
 # app/resources/stock_resource.py
 
-from flask import Blueprint, request
+from flask import Blueprint, jsonify, request
 from app.models.stock import Stock
 from app.repositories.stock_repo import StockRepo
 from app.services.ms_stock import StockService
 
+
 stock_bp = Blueprint("stock", __name__)
 stock_service = StockService()
+stock_repo = StockRepo()
 
 
 @stock_bp.route("/stock", methods=["GET"])
 def index():
     """Endpoint to check stock inventory."""
     return "hola", 200
+
+
+@stock_bp.route("/stock/get_all", methods=["GET"])
+def get_stock():
+    stock = stock_repo.all()
+    return jsonify(
+        [
+            {
+                "id": item.id,
+                "product_id": item.product_id,
+                "transaction_date": item.transaction_date,
+                "quantity": item.quantity,
+                "in_out": item.in_out,
+            }
+            for item in stock
+        ]
+    )
 
 
 @stock_bp.route("/stock/refuel", methods=["POST"])
@@ -38,9 +57,9 @@ def sell():
 
     product_id = data.get("product_id")
     quantity = data.get("quantity")
-    stock_service.make_sale(product_id, quantity)
+    message = stock_service.make_sale(product_id, quantity)
 
-    return "Sale made successfully", 200
+    return {"message": message}, 200
 
 
 @stock_bp.route("/stock/check_quantity/<int:product_id>", methods=["GET"])

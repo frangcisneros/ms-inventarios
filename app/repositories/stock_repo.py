@@ -18,3 +18,6 @@ class StockRepo:
         db.session.delete(stock)
         db.session.commit()
         return stock
+
+    def all(self):
+        return Stock.query.all()
