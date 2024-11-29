@@ -1,11 +1,12 @@
-from app import db
+from app import db, cache
 from app.models.stock import Stock
 
 
 class StockRepo:
     def save(self, stock: Stock):
-        db.session.add(stock)
+        stock = db.session.add(stock)
         db.session.commit()
+        cache.set(f'stock_{stock.id}', stock, timeout=15)
         return stock
 
     def find_by_id(self, id):
@@ -20,4 +21,10 @@ class StockRepo:
         return stock
 
     def all(self):
-        return Stock.query.all()
+        result = cache.get('stocks')
+
+        if result is None:
+            result = Stock.query.all()
+            cache.set('stocks', result, timeout=15)
+            
+        return result

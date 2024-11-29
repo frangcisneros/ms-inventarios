@@ -28,6 +28,7 @@ class DevelopmentConfig(Config):
             "options": "-csearch_path=stock_schema"  # Cambia esto según el microservicio
         }
     }
+    CACHE_REDIS_URL = os.getenv('REDIS_URL')
 
 
 class TestConfig(Config):
@@ -40,7 +41,7 @@ class TestConfig(Config):
             "options": "-csearch_path=compras_schema"  # Cambia esto según el microservicio
         }
     }
-
+    CACHE_REDIS_URL = os.getenv('REDIS_URL')
 
 class ProductionConfig(Config):
     DEBUG = False
@@ -52,7 +53,7 @@ class ProductionConfig(Config):
             "options": "-csearch_path=main_schema"  # Cambia esto según el esquema que uses
         }
     }
-
+    CACHE_REDIS_URL = os.getenv('REDIS_URL')
 
 def factory(app):
     configuation = {
