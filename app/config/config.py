@@ -23,7 +23,7 @@ class DevelopmentConfig(Config):
     SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_DEV_URL")
     SQLALCHEMY_ENGINE_OPTIONS = {
         "connect_args": {
-            "options": "-csearch_path=stock_schema"  # Cambia esto según el microservicio
+            "options": "-csearch_path=stock_schema"
         }
     }
     CACHE_REDIS_URL = os.getenv('REDIS_URL')
@@ -36,7 +36,7 @@ class TestConfig(Config):
     SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_TEST_URL")
     SQLALCHEMY_ENGINE_OPTIONS = {
         "connect_args": {
-            "options": "-csearch_path=compras_schema"  # Cambia esto según el microservicio
+            "options": "-csearch_path=stock_schema"
         }
     }
     CACHE_REDIS_URL = os.getenv('REDIS_URL')
@@ -48,7 +48,7 @@ class ProductionConfig(Config):
     SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_PROD_URL")
     SQLALCHEMY_ENGINE_OPTIONS = {
         "connect_args": {
-            "options": "-csearch_path=main_schema"  # Cambia esto según el esquema que uses
+            "options": "-csearch_path=stock_schema"
         }
     }
     CACHE_REDIS_URL = os.getenv('REDIS_URL')
