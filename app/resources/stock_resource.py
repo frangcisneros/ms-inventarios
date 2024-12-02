@@ -63,7 +63,10 @@ def sell():
 def check_quantity(product_id):
     """Endpoint to check the quantity of a specific product."""
     quantity = stock_service.check_quantity(product_id)
-    return jsonify({"quantity": quantity}), 200
+    if quantity == 0:
+        return jsonify({"quantity": quantity}), 409
+    else:
+        return jsonify({"quantity": quantity}), 200
 
 
 @stock_bp.route("/stock/delete_product/<int:product_id>", methods=["DELETE"])
